@@ -393,8 +393,6 @@ def _bedrock_model_fallback() -> list[str]:
 # ── HTTP probing ──────────────────────────────────────────────────────────────
 
 def _probe_url(url: str, api_key: str | None) -> DiscoveredProvider | None:
-    import httpx
-
     headers: dict[str, str] = {}
     if api_key:
         headers["Authorization"] = f"Bearer {api_key}"

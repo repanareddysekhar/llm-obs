@@ -171,11 +171,6 @@ async def _gemini_stream(
     genai.configure(api_key=api_key)
 
     system_parts = [m["content"] for m in messages if m["role"] == "system"]
-    convo = [m for m in messages if m["role"] != "system"]
-    history = [
-        {"role": "model" if m["role"] == "assistant" else "user", "parts": [m["content"]]}
-        for m in convo[:-1]
-    ]
     gemini_model = genai.GenerativeModel(
         model, system_instruction=system_parts[0] if system_parts else None
     )

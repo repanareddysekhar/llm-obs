@@ -99,7 +99,6 @@ def patch_bedrock_client(obs: "ObservabilityClient") -> bool:
             if service_name != "bedrock-runtime" or operation_name not in _BEDROCK_OPERATIONS:
                 return original_make_api_call(self_inner, operation_name, api_params)
 
-            import time
             model_id = api_params.get("modelId", "unknown")
             provider = _detect_provider(model_id)
 
