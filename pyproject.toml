@@ -31,11 +31,23 @@ openai    = ["openai>=1.30"]
 anthropic = ["anthropic>=0.30"]
 gemini    = ["google-generativeai>=0.7"]
 bedrock   = ["boto3>=1.34"]
+huggingface = ["huggingface-hub>=0.23"]
+llamaindex = ["llama-index-core>=0.11"]
+otlp = [
+    "opentelemetry-api>=1.24",
+    "opentelemetry-sdk>=1.24",
+    "opentelemetry-exporter-otlp-proto-http>=1.24",
+]
 all       = [
     "openai>=1.30",
     "anthropic>=0.30",
     "google-generativeai>=0.7",
     "boto3>=1.34",
+    "huggingface-hub>=0.23",
+    "llama-index-core>=0.11",
+    "opentelemetry-api>=1.24",
+    "opentelemetry-sdk>=1.24",
+    "opentelemetry-exporter-otlp-proto-http>=1.24",
 ]
 dev = ["pytest>=8.0", "ruff>=0.4"]
 

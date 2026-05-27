@@ -42,6 +42,9 @@ class ObservabilityClient:
         on_error: Any = None,
         default_metadata: dict[str, Any] | None = None,
         redact_pii: bool = True,
+        otlp_enabled: bool | None = None,
+        otlp_endpoint: str | None = None,
+        otlp_service_name: str | None = None,
     ) -> None:
         self.endpoint = endpoint or os.environ.get("INGEST_URL", "http://localhost:4000")
         self.api_key = api_key or os.environ.get("INGEST_API_KEY")
@@ -49,6 +52,17 @@ class ObservabilityClient:
         self.sdk_version = sdk_version
         self.default_metadata = default_metadata or {}
         self.redact_pii = redact_pii
+
+        if otlp_enabled is None:
+            otlp_enabled = bool(
+                os.environ.get("OTEL_EXPORTER_OTLP_ENDPOINT")
+                or os.environ.get("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT")
+                or os.environ.get("LLM_OBS_OTLP_ENABLED", "").lower() in ("1", "true", "yes")
+            )
+        self._otlp_enabled = otlp_enabled
+        self._otlp_endpoint = otlp_endpoint
+        self._otlp_service_name = otlp_service_name or os.environ.get("OTEL_SERVICE_NAME", "llm-obs")
+        self._otlp_exporter = None
 
         global _ACTIVE_CLIENT
         _ACTIVE_CLIENT = self
@@ -127,6 +141,21 @@ class ObservabilityClient:
         payload.setdefault("environment", self.environment)
         payload.setdefault("sdk_version", self.sdk_version)
         self._transport.enqueue(payload)
+        if self._otlp_enabled:
+            self._export_otlp(payload)
+
+    def _export_otlp(self, payload: dict[str, Any]) -> None:
+        try:
+            if self._otlp_exporter is None:
+                from .exporters.otlp import OTLPExporter
+
+                self._otlp_exporter = OTLPExporter(
+                    endpoint=self._otlp_endpoint,
+                    service_name=self._otlp_service_name,
+                )
+            self._otlp_exporter.export(payload)
+        except Exception as exc:
+            logger.warning("OTLP export failed: %s", exc)
 
     def _redact_payload(self, payload: dict[str, Any]) -> dict[str, Any]:
         """Redact PII from request and response fields before transport."""
@@ -159,4 +188,6 @@ class ObservabilityClient:
         self._transport.flush()
 
     def shutdown(self) -> None:
+        if self._otlp_exporter:
+            self._otlp_exporter.shutdown()
         self._transport.shutdown()
