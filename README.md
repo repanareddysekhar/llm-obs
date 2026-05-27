@@ -9,15 +9,13 @@
 > One line instruments OpenAI, Anthropic, Gemini, and Bedrock. Ship traces, token usage, latency, and failures to **any** HTTP ingest API — no vendor lock-in.
 
 <p align="center">
-  <strong>Demo GIF</strong> — add <code>docs/assets/demo.gif</code> (~20s: <code>auto_instrument()</code> → one chat → ingest log).<br />
-  <a href="docs/assets/README.md">Recording guide</a> · placeholder below until you upload
+  <video src="docs/assets/demo.mp4" controls width="720" alt="llm-obs demo — chat, traces, and dashboard">
+    <a href="docs/assets/demo.mp4">Watch demo video</a>
+  </video>
 </p>
-
-<!-- Uncomment when demo.gif exists:
 <p align="center">
-  <img src="docs/assets/demo.gif" alt="llm-obs demo" width="720" />
+  <sub>SDK instrumentation → chat → inference logs &amp; dashboard (optional <a href="https://github.com/repanareddysekhar/llm-observability">llm-observability</a> backend)</sub>
 </p>
--->
 
 ---
 
@@ -76,25 +74,40 @@ Flush on shutdown: `obs.flush()` (or rely on batch timer).
 
 ## Killer visual — one inference, four signals
 
-What lands in your ingest / dashboard per call:
+Each span your SDK emits can surface in a log detail view like this — **latency**, **TTFT**, **streamed**, **status**, and **redacted I/O**:
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  TRACE 01J8K9M2N3P4Q5R6S7T8U9V0W   conversation_id: support-ticket-8842     │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  provider: openai          model: gpt-4o-mini          status: ● success    │
-│  latency: 1,240 ms         TTFT: 210 ms (stream)       cost: $0.00042      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  TOKENS   prompt: 842  completion: 118  total: 960                          │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  REQUEST (PII redacted)          │  RESPONSE (truncated)                    │
-│  user: [EMAIL_REDACTED] …        │  "Here are three options…"             │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  FAILURES (when status=error)    │  rate_limit · context_length · timeout  │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+<p align="center">
+  <img src="docs/assets/dashboard-log-detail.png" alt="Log detail: latency 13373ms, TTFT 398ms, streamed, input/output preview" width="820" />
+</p>
 
-Add real screenshots under `docs/assets/` (`dashboard-traces.png`, etc.) — see [docs/assets/README.md](docs/assets/README.md).
+| Signal | Where it shows |
+|--------|----------------|
+| **Traces** | Inference logs table — time, provider/model, status, latency |
+| **Tokens & cost** | Dashboard totals + per-row when usage is present |
+| **Latency** | Per-request ms + dashboard p50 / p95 charts |
+| **Failures** | Status column + dashboard error rate |
+
+---
+
+## Screenshots
+
+| View | What you see |
+|------|----------------|
+| **Chat** | Multi-turn UI with provider/model picker (Ollama, OpenAI, etc.) |
+| **Dashboard** | Request volume, error rate, p50/p95 latency, TTFT, estimated cost |
+| **Logs** | Filterable trace list with latency and response preview |
+| **Log detail** | Full span: TTFT, streaming flag, input/output (PII-redacted in transit) |
+
+<p align="center">
+  <img src="docs/assets/dashboard-chat.png" alt="Chat interface" width="400" />
+  &nbsp;
+  <img src="docs/assets/dashboard-overview.png" alt="Inference dashboard — latency and error rate" width="400" />
+</p>
+<p align="center">
+  <img src="docs/assets/dashboard-traces.png" alt="Inference logs table" width="820" />
+</p>
+
+Asset map: [docs/assets/README.md](docs/assets/README.md)
 
 ---
 
@@ -261,8 +274,8 @@ span.end(status="success", streamed=True)
 
 **Docs & media:**
 
-- [ ] `docs/assets/demo.gif` (20s)
-- [ ] Dashboard screenshot set (traces · tokens · latency · failures)
+- [x] `docs/assets/demo.mp4` — product demo video
+- [x] Dashboard screenshots (chat · overview · traces · log detail)
 
 ---
 

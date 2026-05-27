@@ -1,27 +1,23 @@
 # Visual assets
 
-Add marketing and README media here.
+Stable filenames for README and docs. **Do not use spaces** in new filenames.
 
-| Asset | Purpose | Suggested spec |
-|-------|---------|----------------|
-| `demo.gif` | README hero — 20s screen recording | 1280×720, show `auto_instrument()` + one chat + ingest log line |
-| `architecture.png` | Exported from `architecture.mmd` | SVG/PNG for docs |
-| `dashboard-traces.png` | Killer visual — trace list | From your ingest UI |
-| `dashboard-tokens.png` | Token usage panel | Same session |
-| `dashboard-latency.png` | p50/p99 latency | Same session |
-| `dashboard-failures.png` | Error rate / failed spans | Optional failure injection |
+| File | Source (original) | Used for |
+|------|-------------------|----------|
+| [`demo.mp4`](demo.mp4) | `chatbot-llm-observability.mp4` | README hero — SDK + chat + dashboard flow |
+| [`dashboard-chat.png`](dashboard-chat.png) | Screenshot 2026-05-21 10.59.43 PM | Chat UI (Ollama / model picker) |
+| [`dashboard-overview.png`](dashboard-overview.png) | Screenshot 2026-05-21 10.59.52 PM | Inference dashboard — latency, throughput, error rate, cost |
+| [`dashboard-traces.png`](dashboard-traces.png) | Screenshot 2026-05-21 10.59.57 PM | Inference logs table (all traces) |
+| [`dashboard-log-detail.png`](dashboard-log-detail.png) | Screenshot 2026-05-21 11.00.02 PM | Single trace — TTFT, latency, streamed, I/O preview |
+| [`architecture.mmd`](architecture.mmd) | — | Mermaid source for architecture diagram |
 
-Until files exist, the README uses Mermaid + ASCII fallbacks.
-
-**Record demo.gif (macOS):**
+## Optional exports
 
 ```bash
-# QuickTime → New Screen Recording, or:
-ffmpeg -f avfoundation -i "1" -t 20 -r 15 demo.gif
+# GIF from demo.mp4 (for README mirrors that only accept GIF)
+ffmpeg -i demo.mp4 -vf "fps=12,scale=1280:-1" -t 20 demo.gif
 ```
 
-Replace `architecture.mmd` export:
+## Reference backend
 
-```bash
-# https://mermaid.live — paste docs/assets/architecture.mmd → Export PNG
-```
+Screenshots are from the optional [llm-observability](https://github.com/repanareddysekhar/llm-observability) dashboard ingesting `llm-obs` spans. Any compatible HTTP ingest + UI works the same way.
