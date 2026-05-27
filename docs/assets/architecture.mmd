@@ -1,0 +1,32 @@
+flowchart LR
+  subgraph App["Your LLM app"]
+    LC[LangChain / CrewAI / LiteLLM]
+    OA[OpenAI SDK]
+    AN[Anthropic SDK]
+    GM[Gemini SDK]
+    BR[Bedrock boto3]
+  end
+
+  subgraph SDK["llm-obs (in-process)"]
+    AI[auto_instrument patches]
+    SP[InferenceSpan]
+    PII[PII redaction]
+    BT[BatchTransport]
+  end
+
+  subgraph Sink["Any HTTP ingest"]
+    API[Ingest API]
+    UI[Dashboard / OTel sink planned]
+  end
+
+  LC --> OA
+  LC --> AN
+  OA --> AI
+  AN --> AI
+  GM --> AI
+  BR --> AI
+  AI --> SP
+  SP --> PII
+  PII --> BT
+  BT -->|batched JSON| API
+  API --> UI
