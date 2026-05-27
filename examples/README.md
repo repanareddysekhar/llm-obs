@@ -6,6 +6,8 @@
 | [`langchain_basic.py`](langchain_basic.py) | LangChain + ChatOpenAI | `llm-obs[openai]` + `langchain` `langchain-openai` |
 | [`crewai_basic.py`](crewai_basic.py) | CrewAI crew kickoff | `llm-obs[openai]` + `crewai` |
 | [`litellm_basic.py`](litellm_basic.py) | LiteLLM `acompletion` | `llm-obs[openai]` + `litellm` |
+| [`llamaindex_basic.py`](llamaindex_basic.py) | LlamaIndex callback handler | `llm-obs[llamaindex]` |
+| [`huggingface_basic.py`](huggingface_basic.py) | HF InferenceClient | `llm-obs[huggingface]` |
 | [`benchmark_overhead.py`](benchmark_overhead.py) | Local overhead (no API) | `llm-obs` only |
 
 ```bash
