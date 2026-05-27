@@ -7,6 +7,7 @@ from .providers.openai import wrap_openai
 from .providers.anthropic import wrap_anthropic
 from .providers.gemini import wrap_gemini
 from .providers.bedrock import wrap_bedrock
+from .providers.huggingface import wrap_huggingface
 
 __all__ = [
     # ── Primary interface ──────────────────────────────────────────
@@ -28,4 +29,13 @@ __all__ = [
     "wrap_anthropic",
     "wrap_gemini",
     "wrap_bedrock",
+    "wrap_huggingface",
 ]
+
+# Optional integrations (import from llm_obs.integrations)
+def __getattr__(name: str):
+    if name in ("LlamaIndexObsHandler", "instrument_llamaindex"):
+        from .integrations import llamaindex as _li
+
+        return getattr(_li, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

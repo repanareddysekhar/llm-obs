@@ -18,6 +18,7 @@ def install_provider_interceptors(obs: "ObservabilityClient") -> list[str]:
     from .anthropic import patch_anthropic_class
     from .gemini import patch_gemini_class
     from .bedrock import patch_bedrock_client
+    from .huggingface import patch_huggingface_client
 
     patched = []
     if patch_openai_class(obs):
@@ -28,4 +29,6 @@ def install_provider_interceptors(obs: "ObservabilityClient") -> list[str]:
         patched.append("gemini")
     if patch_bedrock_client(obs):
         patched.append("bedrock")
+    if patch_huggingface_client(obs):
+        patched.append("huggingface")
     return patched
