@@ -7,9 +7,15 @@ Use this after the standalone repo is on GitHub and CI is green.
 1. Create account: https://pypi.org/account/register/
 2. Create project `llm-obs` (or claim if name taken).
 3. Generate API token (scope: project `llm-obs`).
-4. In GitHub repo → **Settings → Secrets → Actions**, add:
-   - For trusted publishing: configure PyPI ↔ GitHub (recommended): https://docs.pypi.org/trusted-publishers/
-   - Or classic: `PYPI_API_TOKEN`
+4. Configure **trusted publishing** on PyPI (required for the current workflow):
+   - PyPI → **Account settings** → **Publishing** → Add trusted publisher
+   - PyPI project name: `llm-obs` (create the project first if needed)
+   - Owner: `repanareddysekhar`
+   - Repository: `llm-obs`
+   - Workflow: `publish.yml`
+   - Environment: `pypi`
+   - GitHub repo → **Settings → Environments** → create environment named `pypi` (no secrets required for trusted publishing)
+   - Docs: https://docs.pypi.org/trusted-publishers/
 5. Tag release `v0.1.3` on GitHub → `publish.yml` uploads the wheel.
 
 Verify: `pip install llm-obs`

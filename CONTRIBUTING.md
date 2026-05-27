@@ -5,7 +5,7 @@ Thanks for helping improve `llm-obs`.
 ## Development setup
 
 ```bash
-git clone https://github.com/<org-or-user>/llm-obs.git
+git clone https://github.com/repanareddysekhar/llm-obs.git
 cd llm-obs
 python -m venv .venv
 source .venv/bin/activate

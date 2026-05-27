@@ -2,7 +2,7 @@
 # Push sdk/ contents to a standalone GitHub repo (open-source home for llm-obs).
 #
 # Usage:
-#   ./scripts/push-standalone-repo.sh git@github.com:YOUR_ORG/llm-obs.git
+#   ./scripts/push-standalone-repo.sh https://github.com/YOUR_USER/llm-obs.git
 #
 # Prerequisites:
 #   - Empty public repo created on GitHub (no README/license — or force-push once).
