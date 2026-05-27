@@ -166,11 +166,13 @@ Source: [docs/assets/architecture.mmd](docs/assets/architecture.mmd)
 
 | Framework | Status | How |
 |-----------|--------|-----|
-| **LangChain** | Works today | `auto_instrument()` before `ChatOpenAI` / Anthropic chat models |
-| **LiteLLM** | Works today | Patches OpenAI path; see [examples/litellm_basic.py](examples/litellm_basic.py) |
-| **CrewAI** | Works today | Instrument at startup before crew runs |
-| **LlamaIndex** | Roadmap | Dedicated callback handler |
-| **Vercel AI SDK** | Roadmap | Node SDK / separate package |
+| **LangChain** | Works today | `auto_instrument()` — [examples/langchain_basic.py](examples/langchain_basic.py) |
+| **LiteLLM** | Works today | OpenAI path — [examples/litellm_basic.py](examples/litellm_basic.py) |
+| **CrewAI** | Works today | [examples/crewai_basic.py](examples/crewai_basic.py) |
+| **LlamaIndex** | Callback handler | `instrument_llamaindex()` — [examples/llamaindex_basic.py](examples/llamaindex_basic.py) |
+| **Hugging Face / TGI** | HF InferenceClient + OpenAI-compat TGI | `auto_instrument()` — [examples/huggingface_basic.py](examples/huggingface_basic.py) |
+| **OpenTelemetry** | OTLP/HTTP export | `pip install "llm-obs[otlp]"` — [docs/integrations/otlp.md](docs/integrations/otlp.md) |
+| **Vercel AI SDK** | HTTP bridge contract | [docs/integrations/vercel-ai-sdk.md](docs/integrations/vercel-ai-sdk.md) |
 
 Examples: [`examples/`](examples/)
 
@@ -267,10 +269,10 @@ span.end(status="success", streamed=True)
 - [x] LangChain — example in `examples/`
 - [x] LiteLLM — example in `examples/`
 - [x] CrewAI — example in `examples/`
-- [ ] LlamaIndex callback handler
-- [ ] Vercel AI SDK (TypeScript package or bridge)
-- [ ] OpenTelemetry OTLP exporter (span → OTel proto)
-- [ ] First-class Hugging Face / TGI
+- [x] LlamaIndex callback handler
+- [x] OpenTelemetry OTLP exporter
+- [x] Hugging Face InferenceClient (TGI via OpenAI-compatible URL)
+- [ ] Vercel AI SDK — `@llm-obs/bridge` npm package (HTTP contract [documented](docs/integrations/vercel-ai-sdk.md))
 
 **Docs & media:**
 

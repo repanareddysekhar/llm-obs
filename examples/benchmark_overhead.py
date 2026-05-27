@@ -15,7 +15,6 @@ import tracemalloc
 sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]))
 
 from llm_obs import ObservabilityClient
-from llm_obs.span import InferenceSpan
 
 
 class _NoopTransport:
