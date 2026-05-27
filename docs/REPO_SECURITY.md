@@ -56,8 +56,16 @@ Enable in **Settings → Branches → Add rule** for `main`:
 - [x] Require review from Code Owners
 - [x] Require status checks to pass: **test** (or all CI jobs)
 - [x] Require branches to be up to date before merging
-- [x] Do not allow bypassing the above settings
+- [ ] Do not allow bypassing (left **off** for solo maintainer — see below)
 - [ ] Restrict who can push to matching branches (optional: only you)
+
+### Solo maintainer note
+
+If you are the only `CODEOWNERS` entry, GitHub will **not** let you approve your own PR as a code owner. Options:
+
+1. **Merge as admin** with *Do not allow bypassing* disabled (current setting: `enforce_admins: false`).
+2. Add a trusted second GitHub account as co-owner for reviews.
+3. Turn off *Require review from Code Owners* but keep *Require PR* + CI checks.
 
 ## Releases and PyPI
 
