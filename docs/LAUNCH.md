@@ -97,7 +97,7 @@ Expand the README quickstart + link to architecture of PII + batch transport.
 The private/full `llm-observability` repo can depend on the published package:
 
 ```bash
-pip install llm-obs==0.1.3
+pip install llm-obs==0.1.4
 ```
 
 Or git submodule / subtree from `llm-obs` for co-development.

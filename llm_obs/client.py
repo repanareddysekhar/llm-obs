@@ -35,7 +35,7 @@ class ObservabilityClient:
         endpoint: str | None = None,
         api_key: str | None = None,
         environment: str | None = None,
-        sdk_version: str = "0.1.3",
+        sdk_version: str = "0.1.4",
         batch_size: int = 20,
         flush_interval_s: float = 2.0,
         max_retries: int = 3,
