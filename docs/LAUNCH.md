@@ -2,23 +2,60 @@
 
 Use this after the standalone repo is on GitHub and CI is green.
 
-## 1. PyPI (primary distribution)
+## 1. Deploy from GitHub to PyPI
 
-1. Create account: https://pypi.org/account/register/
-2. Create project `llm-obs` (or claim if name taken).
-3. Generate API token (scope: project `llm-obs`).
-4. Configure **trusted publishing** on PyPI (required for the current workflow):
-   - PyPI → **Account settings** → **Publishing** → Add trusted publisher
-   - PyPI project name: `llm-obs` (create the project first if needed)
-   - Owner: `repanareddysekhar`
-   - Repository: `llm-obs`
-   - Workflow: `publish.yml`
-   - Environment: `pypi`
-   - GitHub repo → **Settings → Environments** → create environment named `pypi` (no secrets required for trusted publishing)
-   - Docs: https://docs.pypi.org/trusted-publishers/
-5. Tag release `v0.1.3` on GitHub → `publish.yml` uploads the wheel.
+Your repo already has [`.github/workflows/publish.yml`](https://github.com/repanareddysekhar/llm-obs/blob/main/.github/workflows/publish.yml). It uses **trusted publishing** (no API token in GitHub secrets).
 
-Verify: `pip install llm-obs`
+### A. Link PyPI to GitHub (one-time)
+
+On [pypi.org/project/llm-obs](https://pypi.org/project/llm-obs/) (or **Publishing** in account settings):
+
+1. **Add a new trusted publisher**
+2. Fill in exactly:
+
+| Field | Value |
+|-------|--------|
+| PyPI Project Name | `llm-obs` |
+| Owner | `repanareddysekhar` |
+| Repository name | `llm-obs` |
+| Workflow name | `publish.yml` |
+| Environment name | `pypi` |
+
+3. On GitHub: [llm-obs → Settings → Environments](https://github.com/repanareddysekhar/llm-obs/settings/environments) — ensure an environment named **`pypi`** exists (you already have this).
+
+Official guide: [PyPI trusted publishers](https://docs.pypi.org/trusted-publishers/).
+
+### B. Run the deploy
+
+**Option 1 — Manual (after trusted publisher is saved):**
+
+GitHub → **Actions** → **Publish to PyPI** → **Run workflow** → Run on `main`.
+
+Or:
+
+```bash
+gh workflow run publish.yml -R repanareddysekhar/llm-obs
+```
+
+**Option 2 — On every release (automatic):**
+
+```bash
+# bump version in pyproject.toml + llm_obs/client.py first, then:
+git tag v0.1.4
+git push origin v0.1.4
+gh release create v0.1.4 -R repanareddysekhar/llm-obs --generate-notes
+```
+
+Publishing runs when the release is **published** (not draft).
+
+### C. Verify
+
+```bash
+pip install llm-obs
+pip show llm-obs
+```
+
+Check [pypi.org/project/llm-obs](https://pypi.org/project/llm-obs/) shows the new version and release files.
 
 ## 2. GitHub repo polish
 
